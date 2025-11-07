@@ -23,7 +23,7 @@ func (m *Map) Len() int {
 
 // Range calls f sequentially for each key and value present in the map.
 // If f returns false, range stops the iteration.
-func (m *Map) Range(f func(key string, value interface{}) bool) {
+func (m *Map) Range(f func(key string, value any) bool) {
 	for _, key := range m.Keys {
 		entry := m.Data[key]
 		if !f(key, entry.Value) {

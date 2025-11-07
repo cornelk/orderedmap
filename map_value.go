@@ -9,7 +9,7 @@ import (
 // Entry represents a map value entry.
 type Entry struct {
 	index uint64
-	Value interface{}
+	Value any
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface.

@@ -9,7 +9,7 @@
 
 A Golang Map that keeps track of the insert order of items.
 
-The current version can be used as a replacement for `map[string]interface{}` and allows JSON unmarshalling into it.
+The current version can be used as a replacement for `map[string]any` and allows JSON unmarshalling into it.
 No manual adding of items is currently possible.
 
 ## Usage

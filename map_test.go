@@ -45,14 +45,14 @@ func TestRange(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	var items []map[string]interface{}
-	m.Range(func(key string, value interface{}) bool {
-		entry := map[string]interface{}{key: value}
+	var items []map[string]any
+	m.Range(func(key string, value any) bool {
+		entry := map[string]any{key: value}
 		items = append(items, entry)
 		return true
 	})
 
-	expected := []map[string]interface{}{
+	expected := []map[string]any{
 		{"423": "abc"},
 		{"231": "dbh"},
 		{"152": "xyz"},
