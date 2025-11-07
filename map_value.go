@@ -35,5 +35,9 @@ func (s *Entry) UnmarshalJSON(b []byte) error {
 
 // MarshalJSON implements the json.Marshaler interface.
 func (s *Entry) MarshalJSON() ([]byte, error) {
-	return json.Marshal(s.Value)
+	b, err := json.Marshal(s.Value)
+	if err != nil {
+		return nil, fmt.Errorf("marshalling entry: %w", err)
+	}
+	return b, nil
 }

@@ -35,7 +35,7 @@ func (m *Map) Range(f func(key string, value interface{}) bool) {
 // UnmarshalJSON implements the json.Unmarshaler interface.
 func (m *Map) UnmarshalJSON(b []byte) error {
 	if err := json.Unmarshal(b, &m.Data); err != nil {
-		return err
+		return fmt.Errorf("failed to unmarshal orderedmap: %w", err)
 	}
 
 	m.rebuildKeys()
