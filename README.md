@@ -7,21 +7,70 @@
 
 ## Overview
 
-A Golang Map that keeps track of the insert order of items.
+A Go map that preserves insertion order for manual operations and JSON marshalling.
+Nested JSON objects are unmarshalled as ordered maps too.
 
-The current version can be used as a replacement for `map[string]any` and allows JSON unmarshalling into it.
-No manual adding of items is currently possible.
+## Installation
+
+```bash
+go get github.com/cornelk/orderedmap
+```
+
+Requires Go 1.24 or later.
 
 ## Usage
 
-Unmarshall and marshall JSON:
+```go
+package main
 
+import (
+	"encoding/json"
+	"fmt"
+
+	"github.com/cornelk/orderedmap"
+)
+
+func main() {
+	var m orderedmap.Map
+
+	m.Set("name", "Alice")
+	m.Set("age", 30)
+
+	if value, ok := m.Get("name"); ok {
+		fmt.Println(value)
+	}
+
+	m.Range(func(key string, value any) bool {
+		fmt.Printf("%s: %v\n", key, value)
+		return true
+	})
+
+	data, _ := json.Marshal(&m)
+	fmt.Println(string(data))
+}
 ```
-var m Map
+
+JSON input order is preserved when unmarshalling and marshalling:
+
+```go
+var m orderedmap.Map
 input := `{"423":"abc","231":"dbh","152":"xyz"}`
 
-m.UnmarshalJSON([]byte(input))
-
-output, _ := m.MarshalJSON()
-# unlike the standard Golang map, the output will be exact the same and not in random key order
+json.Unmarshal([]byte(input), &m)
+output, _ := json.Marshal(&m)
+// Output: {"423":"abc","231":"dbh","152":"xyz"}
 ```
+
+## API
+
+- `Set(key string, value any)` adds or updates a value without moving existing keys.
+- `Get(key string) (any, bool)` retrieves a value.
+- `Delete(key string) bool` removes a value.
+- `GetAndDelete(key string) (any, bool)` retrieves and removes a value.
+- `Clear()` removes all values.
+- `Len() int` returns the number of entries.
+- `Range(func(key string, value any) bool)` iterates in insertion order.
+
+## License
+
+Apache-2.0 License - See LICENSE file for details.

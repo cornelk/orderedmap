@@ -6,8 +6,8 @@ import "sync/atomic"
 // This can not be part of the map type itself as the recursive unmarshalling will call
 // the Unmarshal function of a new Entry type, which does not have access to the map it is
 // part of.
-var sequence uint64
+var sequence atomic.Uint64
 
 func nextSequence() uint64 {
-	return atomic.AddUint64(&sequence, 1)
+	return sequence.Add(1)
 }
